@@ -21,6 +21,7 @@ class PortListEventHandler(watchdog.events.FileSystemEventHandler):
 class PortListerPlugin(octoprint.plugin.StartupPlugin, octoprint.plugin.AssetPlugin, octoprint.plugin.SettingsPlugin):
 	def on_after_startup(self, *args, **kwargs):
 		self._logger.info("Port Lister %s %s" % (repr(args), repr(kwargs)))
+		os.system("sudo ~/hub-ctrl -h 0 -P 2 -p 0")
 		event_handler = PortListEventHandler(self)
 		self._observer = Observer()
 		self._observer.schedule(event_handler, "/dev", recursive=False)
@@ -54,6 +55,7 @@ class PortListerPlugin(octoprint.plugin.StartupPlugin, octoprint.plugin.AssetPlu
 		self._observer.join()
 
 	def do_auto_connect(self, port, *args, **kwargs):
+		
 		try:
 			self._logger.info("do_auto_connect")
 			(autoport, baudrate) = self._settings.global_get(["serial", "port"]), self._settings.global_get_int(["serial", "baudrate"])
@@ -90,12 +92,12 @@ class PortListerPlugin(octoprint.plugin.StartupPlugin, octoprint.plugin.AssetPlu
 
 				# use github release method of version check
 				type="github_release",
-				user="markwal",
+				user="HughEbeling",
 				repo="OctoPrint-PortLister",
 				current=self._plugin_version,
 
 				# update method: pip
-				pip="https://github.com/markwal/OctoPrint-PortLister/archive/{target_version}.zip"
+				pip="https://github.com/HUughEbeling/OctoPrint-PortLister/archive/{target_version}.zip"
 			)
 		)
 
